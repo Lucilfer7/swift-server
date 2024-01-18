@@ -80,48 +80,6 @@ async function createAuthor(req, res) {
   }
 }
 
-/*async function updateAuthor(req, res) {
-  const { Name, LastName, Description, ImagePath } = req.body;
-  let {AuthorID} = req.body;
-  AuthorID = parseInt(AuthorID)
-  const file = req.file;
-  if (!file && !ImagePath) {
-    return res.status(400).json({ error: "Debe proporcionar una imagen" });
-  }
-  console.log(ImagePath)
-  const existingAuthor = await getAuthorByIDFromDB(AuthorID);
-  const existingImagePath = existingAuthor.ImagePath;
-
-  if (existingImagePath && existingImagePath !== "no-pic.jpg" && ImagePath) {
-    const pathToDelete = path.join("public/images", existingImagePath);
-    try {
-      await fs.unlink(pathToDelete);
-      console.log(`Imagen previa eliminada: ${pathToDelete}`);
-    } catch (error) {
-      console.error(
-        `Error al eliminar la imagen previa: ${pathToDelete}`,
-        error
-      );
-    }
-  }
-
-  const authorData = {
-    Name,
-    LastName,
-    Description,
-    ImagePath: ImagePath ? existingImagePath : file.filename,
-  };
-  
-  try {
-    await updateAuthorInDB(authorData, AuthorID);
-    return res.status(200).json("Éxito");
-  } catch (error) {
-    console.error("Error al actualizar el autor:", error.message);
-    return res.status(500).json({ error: "No se pudo actualizar el autor" });
-  }
-}
-*/
-
 async function updateAuthor(req, res) {
   const { Name, LastName, Description, ImagePath } = req.body;
   let { AuthorID } = req.body;
@@ -135,7 +93,7 @@ async function updateAuthor(req, res) {
     const existingImagePath = existingAuthor.ImagePath;
 
     if (existingImagePath && existingImagePath !== "no-pic.jpg") {
-      const pathToDelete = path.join("public/images", existingImagePath);
+      const pathToDelete = path.join("public/images/authors", existingImagePath);
       try {
         await fs.unlink(pathToDelete);
         console.log(`Imagen previa eliminada: ${pathToDelete}`);
