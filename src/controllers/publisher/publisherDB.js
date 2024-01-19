@@ -18,12 +18,11 @@ const getPublisherByIDFromDB = async () => {
 const createPublisherInDB = async (publisherData) => {
   console.log(publisherData);
   try {
-    /*const [rows] = await pool.query(
+    const [rows] = await pool.query(
       `INSERT INTO publisher SET ?`,
       publisherData
     );
     return rows;
-    */
   } catch (error) {
     console.error("Error al insertar la editorial:", error);
     return res.status(500).json({ error: "No se pudo crear la editorial" });

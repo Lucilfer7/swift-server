@@ -1,4 +1,3 @@
-// db.js
 import { pool } from "../../db.js";
 
 async function getCount() {
