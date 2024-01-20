@@ -1,9 +1,9 @@
 import { pool } from "../../db.js";
 
-async function getCollectionInDB() {
+const getCollectionInDB = async () => {
   try {
     const connection = await pool.getConnection();
-    const [rows] = await connection.query("SELECT * FROM collection");
+    const [rows] = await connection.query("SELECT * FROM collection_publisher_view");
     connection.release();
     return rows;
   } catch (error) {
@@ -11,18 +11,20 @@ async function getCollectionInDB() {
   }
 }
 
-async function createCollectionInDB(collectionData) {
+const createCollectionInDB = async (collectionData) => {
   try {
     const connection = await pool.getConnection();
     const [result] = await connection.query(
-      `INSERT INTO author SET ?`,
+      `INSERT INTO collection SET ?`,
       collectionData
     );
     connection.release();
     return result;
   } catch (error) {
-    throw error;
-  }
-}
+    console.error('Error en createCollectionInDB:', error);
+    throw error; // Re-lanza el error después de imprimirlo
+  };
+};
+
 
 export { getCollectionInDB, createCollectionInDB };

@@ -7,8 +7,9 @@ import {
 } from "./publisherDB.js";
 
 const getPublisherByID = async (req, res) => {
-  getPublisherByIDFromDB();
-  return res.send("getting publisher by ID");
+  const id = req.params.id;
+  const publisher = await getPublisherByIDFromDB(id);
+  return res.status(200).json(publisher);
 };
 
 const getPublishers = async (req, res) => {
@@ -16,7 +17,7 @@ const getPublishers = async (req, res) => {
     const publishers = await getPublisherInDB();
     return res.status(200).json(publishers);
   } catch (error) {
-    console.error("Error al obtener editoriales:", error);
+    console.error("Error al obtener editoriales:", error.message);
     res.status(500).json({ error: "No se pudieron obtener las editoriales" });
   }
 };

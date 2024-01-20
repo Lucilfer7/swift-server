@@ -1,6 +1,6 @@
 import { pool } from "../../db.js";
 
-async function getCount() {
+const getCount = async () => {
   try {
     const connection = await pool.getConnection();
     const [rows] = await connection.query(
@@ -13,7 +13,7 @@ async function getCount() {
   }
 }
 
-async function getAuthorsPage(startIndex, perPage) {
+const getAuthorsPage = async (startIndex, perPage) => {
   try {
     const connection = await pool.getConnection();
     const [rows] = await connection.query("SELECT * FROM author LIMIT ?, ?", [
@@ -27,7 +27,7 @@ async function getAuthorsPage(startIndex, perPage) {
   }
 }
 
-async function getAuthorByIDFromDB(id) {
+const getAuthorByIDFromDB = async (id) => {
   try {
     const [rows] = await pool.query(
       `SELECT * FROM author WHERE AuthorID = ${id}`
@@ -38,13 +38,14 @@ async function getAuthorByIDFromDB(id) {
   }
 }
 
-async function createAuthorInDB(authorData) {
+const createAuthorInDB = async (authorData) => {
   try {
     const connection = await pool.getConnection();
     const [result] = await connection.query(
       `INSERT INTO author SET ?`,
       authorData
     );
+    console.log('Resultado de la inserción:', result);
     connection.release();
     return result;
   } catch (error) {
@@ -52,7 +53,7 @@ async function createAuthorInDB(authorData) {
   }
 }
 
-async function updateAuthorInDB(authorData, authorID) {
+const updateAuthorInDB = async (authorData, authorID) => {
   try {
     const connection = await pool.getConnection();
     const query = `UPDATE author SET ? WHERE AuthorID = ?`;
@@ -61,8 +62,8 @@ async function updateAuthorInDB(authorData, authorID) {
     return result;
   } catch (error) {
     throw error;
-  }
-}
+  };
+};
 
 export {
   getCount,

@@ -1,4 +1,3 @@
-// author.controller.js
 import fs from "fs/promises";
 import path from "path";
 import {
@@ -9,7 +8,7 @@ import {
   updateAuthorInDB,
 } from "./authorDB.js";
 
-async function getAuthors(req, res) {
+const getAuthors = async (req, res) => {
   try {
     const page = parseInt(req.query.page, 10) || 1;
     const perPage = parseInt(req.query.perPage, 10) || 10;
@@ -30,36 +29,36 @@ async function getAuthors(req, res) {
   }
 }
 
-async function getCountOfAuthors(req, res) {
+const getCountOfAuthors = async (req, res) => {
   try {
     const count = await getCount();
     return res.status(200).json({ count });
   } catch (error) {
-    console.error("Error al obtener la cuenta total de autores:", error);
+    console.error("Error al obtener la cuenta total de autores:", error.message);
     res
       .status(500)
       .json({ error: "No se pudo obtener la cuenta total de autores" });
-  }
-}
+  };
+};
 
-async function getAuthorByID(req, res) {
+const getAuthorByID = async (req, res) => {
   try {
     const id = req.params.id;
     const author = await getAuthorByIDFromDB(id);
     res.status(200).json(author);
   } catch (error) {
-    console.error("Error al obtener autor:", error);
+    console.error("Error al obtener autor:", error.message);
     res.status(500).json({ error: "No se pudo obtener al autor" });
-  }
-}
+  };
+};
 
-async function createAuthor(req, res) {
+const createAuthor = async (req, res) => {
   const { Name, LastName, Description } = req.body;
   const file = req.file;
 
   if (!file) {
     return res.status(400).json({ error: "Debe proporcionar una imagen" });
-  }
+  };
 
   const authorData = {
     Name,
@@ -77,18 +76,18 @@ async function createAuthor(req, res) {
   } catch (error) {
     console.error("Error al insertar el autor:", error.message);
     return res.status(500).json({ error: "No se pudo crear el autor" });
-  }
-}
+  };
+};
 
-async function updateAuthor(req, res) {
+const updateAuthor = async (req, res) => {
   const { Name, LastName, Description, ImagePath } = req.body;
   let { AuthorID } = req.body;
   AuthorID = parseInt(AuthorID);
   const file = req.file;
 
-  // Verificar si se proporciona una imagen nueva
+  //* Verificar si se proporciona una imagen nueva
   if (file) {
-    // Se proporciona una nueva imagen, eliminar la imagen existente si la hay
+    //* Se proporciona una nueva imagen, eliminar la imagen existente si la hay
     const existingAuthor = await getAuthorByIDFromDB(AuthorID);
     const existingImagePath = existingAuthor.ImagePath;
 
@@ -100,13 +99,13 @@ async function updateAuthor(req, res) {
       } catch (error) {
         console.error(
           `Error al eliminar la imagen previa: ${pathToDelete}`,
-          error
+          error.message
         );
-      }
-    }
-  }
+      };
+    };
+  };
 
-  // Construir el objeto authorData
+  //* Construir el objeto authorData
   const authorData = {
     Name,
     LastName,
@@ -115,19 +114,18 @@ async function updateAuthor(req, res) {
   };
 
   try {
-    // Actualizar el autor en la base de datos
+    //* Actualizar el autor en la base de datos
     await updateAuthorInDB(authorData, AuthorID);
     return res.status(200).json("Éxito");
   } catch (error) {
     console.error("Error al actualizar el autor:", error.message);
     return res.status(500).json({ error: "No se pudo actualizar el autor" });
-  }
-}
+  };
+};
 
-
-async function deleteAuthor(req, res) {
+const deleteAuthor = async (req, res) => {
   res.send("Deleting author");
-}
+};
 
 export {
   getAuthors,

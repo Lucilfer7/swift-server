@@ -8,11 +8,18 @@ const getPublisherInDB = async () => {
     return rows;
   } catch (error) {
     throw error;
-  }
+  };
 };
 
-const getPublisherByIDFromDB = async () => {
-  return [];
+const getPublisherByIDFromDB = async (id) => {
+  try {
+    const [rows] = await pool.query(
+      `SELECT * FROM publisher WHERE PublisherID = ${id}`
+    );
+    return rows[0];
+  } catch (error) {
+    throw error;
+  };
 };
 
 const createPublisherInDB = async (publisherData) => {
@@ -29,8 +36,16 @@ const createPublisherInDB = async (publisherData) => {
   }
 };
 
-const updatePublisherInDB = async () => {
-  return [];
+const updatePublisherInDB = async (publisherData, publisherID) => {
+  try {
+    const connection = await pool.getConnection();
+    const query = `UPDATE publisher SET ? WHERE PublisherID = ?`;
+    const [result] = await connection.query(query, [publisherData, publisherID]);
+    connection.release();
+    return result;
+  } catch (error) {
+    throw error;
+  };
 };
 
 const deletePublisherInDB = async () => {

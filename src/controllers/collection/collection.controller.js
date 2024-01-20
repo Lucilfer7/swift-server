@@ -5,26 +5,37 @@ const getCollection = async (req, res) => {
     const collections = await getCollectionInDB();
     return res.status(200).json(collections);
   } catch (error) {
-    console.error("Error al obtener colección:", error);
+    console.error("Error al obtener colección:", error.message);
     res.status(500).json({ error: "No se pudieron obtener las colecciones" });
-  }
+  };
 };
 
+const getCollectionByID = async (req, res) => {
+
+}
+
 const createCollection = async (req, res) => {
-  const { name, publisherID } = req.body;
+  const { Name, publisherID } = req.body;
 
   const collectionData = {
-    name,
-    publisherID,
+    Name,
+    PublisherID: publisherID,
   };
 
   try {
-    const [result] = await createCollectionInDB(collectionData);
-    return res.status(200).json({ name, publisherID, id: result.insertId });
+    const result = await createCollectionInDB(collectionData);
+    console.log('Resultado de createCollectionInDB:', result);
+
+    // Manejar el resultado según tus necesidades
+    return res.status(200).json({ Name, publisherID, id: result.insertId });
   } catch (error) {
-    console.error("Error al insertar el colección:", error);
+    console.error("Error al insertar la colección:", error.message);
+
+    // Puedes manejar casos específicos de error aquí si es necesario
+
     return res.status(500).json({ error: "No se pudo crear la colección" });
   }
 };
+
 
 export { getCollection, createCollection };
