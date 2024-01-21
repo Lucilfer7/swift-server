@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
-  getPublisherByID,
-  getPublishers,
-  createPublisher,
-  deletePublisher,
-  updatePublisher,
+    getPublisherByID,
+    getPublishers,
+    createPublisher,
+    deletePublisher,
+    updatePublisher,
 } from "../controllers/publisher/publisher.controller.js";
 
 const publisherRouter = Router();

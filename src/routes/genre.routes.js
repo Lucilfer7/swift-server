@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
-  createGenre,
-  deleteGenre,
-  getGenreByID,
-  getGenres,
-  updateGenre
+    createGenre,
+    deleteGenre,
+    getGenreByID,
+    getGenres,
+    updateGenre
 } from '../controllers/genre/genre.controller.js'
 
 const genreRouter = Router();

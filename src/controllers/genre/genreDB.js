@@ -3,7 +3,7 @@ import { pool } from "../../db.js"
 const getGenresInDB = async () => {
     try {
         const connection = await pool.getConnection();
-        const [rows] = await connection.query("SELECT * FROM genre");
+        const [rows] = await connection.query("SELECT * FROM Genre");
         connection.release();
         return rows;
     } catch (error) {
@@ -11,28 +11,35 @@ const getGenresInDB = async () => {
     }
 };
 
-const getGenreByIDFromDB = async () => {
-    // Future code
-    return [];
+const getGenreByIDFromDB = async (id) => {
+    try {
+        const [rows] = await pool.query(
+            'SELECT * FROM Genre WHERE GenreID = ?',
+            [id]
+        );
+        return rows[0];
+    } catch (error) {
+        throw error;
+    };
 };
 
 const createGenreInDB = async (genreData) => {
     try {
         const [rows] = await pool.query(
-            `INSERT INTO genre SET ?`,
+            `INSERT INTO Genre SET ?`,
             genreData
         );
         return rows;
     } catch (error) {
         console.error("Error al insertar el género:", error);
-        return res.status(500).json({ error: "No se pudo crear el género" });
-    }
+        throw error;
+    };
 };
 
 const updateGenreInDB = async (Name, id) => {
     try {
         const connection = await pool.getConnection();
-        const query = `UPDATE genre SET Name = ? WHERE GenreID = ?`;
+        const query = `UPDATE genre SET GenreName = ? WHERE GenreID = ?`;
         const [result] = await connection.query(query, [Name, id]);
         connection.release();
         return result;
@@ -44,7 +51,7 @@ const updateGenreInDB = async (Name, id) => {
 const deleteGenreInDB = async (id) => {
     try {
         const connection = await pool.getConnection();
-        const query = `DELETE FROM genre WHERE GenreID = ?`
+        const query = `DELETE FROM Genre WHERE GenreID = ?`
         const [result] = await connection.query(query, [id]);
         connection.release();
         return result
