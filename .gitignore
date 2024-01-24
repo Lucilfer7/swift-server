@@ -1,0 +1,8 @@
+#Environments
+.env
+
+#Node.js
+/node_modules
+
+# Dependencias de paquetes de npm
+package-lock.json

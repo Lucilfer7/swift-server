@@ -1,5 +1,8 @@
 import { pool } from "../../db.js";
 
+
+const getWorksByAuthorIDQuery = 'SELECT * FROM WorksAuthorView WHERE AuthorID = ?';
+
 const getAuthorsFromDB = async (startIndex, perPage) => {
     try {
         const connection = await pool.getConnection();
@@ -23,6 +26,14 @@ const getAuthorByIDFromDB = async (id) => {
     };
 };
 
+const getWorksByAuthorIDFromDB = async (authorID) => {
+    try {
+        const [rows] = await pool.query(getWorksByAuthorIDQuery, [authorID]);
+        return rows;
+    } catch (error) {
+        throw error;
+    };
+};
 
 const createAuthorInDB = async (authorData) => {
     try {
@@ -51,9 +62,4 @@ const updateAuthorInDB = async (authorData, authorID) => {
     };
 };
 
-export {
-    getAuthorByIDFromDB,
-    getAuthorsFromDB,
-    createAuthorInDB,
-    updateAuthorInDB,
-};
+export { getAuthorByIDFromDB, getAuthorsFromDB, createAuthorInDB, updateAuthorInDB, getWorksByAuthorIDFromDB };

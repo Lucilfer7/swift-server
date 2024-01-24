@@ -1,10 +1,8 @@
-CREATE DATABASE swift;
-USE swift;
-
 CREATE TABLE Works (
     WorkID INT NOT NULL AUTO_INCREMENT,
     Title VARCHAR(255),
     Subtitle VARCHAR(255),
+    OriginalTitle VARCHAR(255),
     Description TEXT,
     PublishingYear INT,
     ImagePath VARCHAR(255),
@@ -67,8 +65,8 @@ CREATE TABLE Book (
     EditionID INT,
     CollectionID INT,
     TypeOfCover VARCHAR(75),
-    Title VARCHAR(255),      -- Título específico de la edición
-    Subtitle VARCHAR(255),   -- Subtítulo específico de la edición
+    Title VARCHAR(255),
+    Subtitle VARCHAR(255),
     Description TEXT,
     Pages INT,
     Rating INT,
@@ -120,7 +118,10 @@ SELECT
     WA.RoleID,
     W.Title AS WorkTitle,
     W.Subtitle AS WorkSubtitle,
+    W.OriginalTitle AS WorkOriginalTitle,
+    W.PublishingYear AS WorkPublishingYear,
     W.Description AS WorkDescription,
+    W.ImagePath AS WorkImagePath,
     A.Name AS AuthorName,
     A.LastName AS AuthorLastName,
     R.RoleName
@@ -128,20 +129,3 @@ FROM Works_Author WA
 JOIN Works W ON WA.WorkID = W.WorkID
 JOIN Author A ON WA.AuthorID = A.AuthorID
 JOIN Role R ON WA.RoleID = R.RoleID;
-
-ALTER TABLE Edition RENAME COLUMN WorksID TO WorkID;
-ALTER TABLE Book MODIFY COLUMN Cover VARCHAR(255);
-
-SELECT * FROM Works;
-SELECT * FROM Author;
-SELECT * FROM Role;
-SELECT * FROM Works_Author;
-SELECT * FROM Edition;
-SELECT * FROM Publisher;
-SELECT * FROM Collection;
-SELECT * FROM Book;
-SELECT * FROM Book_Author_Role;
-SELECT * FROM Genre;
-SELECT * FROM Book_Genre;
-SELECT * FROM Collection_Publisher_View;
-SELECT * FROM WorksAuthorView;

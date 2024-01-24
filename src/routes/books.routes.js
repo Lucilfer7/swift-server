@@ -1,12 +1,12 @@
 import express from 'express';
-import { getBooks, getBookByID, createBook, updateBook, deleteBook } from '../controllers/books/books.controller';
+import { getBooks, getBookByISBN, createBook, updateBook, deleteBook } from '../controllers/books/books.controller';
 
 const booksRouter = express.Router();
 
 booksRouter.get('/books', getBooks);
-booksRouter.get('/books/:bookID', getBookByID);
+booksRouter.get('/books/:isbn', getBookByISBN);
 booksRouter.post('/books', createBook);
-booksRouter.put('/books/:bookID', updateBook);
-booksRouter.delete('/books/:bookID', deleteBook);
+booksRouter.put('/books/:isbn', updateBook);
+booksRouter.delete('/books/:isbn', deleteBook);
 
 export default booksRouter;

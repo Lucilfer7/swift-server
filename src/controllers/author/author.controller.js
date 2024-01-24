@@ -5,6 +5,7 @@ import {
     getAuthorByIDFromDB,
     createAuthorInDB,
     updateAuthorInDB,
+    getWorksByAuthorIDFromDB
 } from "./authorDB.js";
 
 const getAuthors = async (req, res) => {
@@ -24,9 +25,9 @@ const getAuthorByID = async (req, res) => {
         if (!author) {
             return res.status(404).json({ error: 'Autor no encontrado' });
         }
-        //const worksList = await getWorksByAuthorIDFromDB(id);
+        const worksList = await getWorksByAuthorIDFromDB(id);
 
-        res.status(200).json({ "Author": author/*, worksList*/ });
+        res.status(200).json({ "Author": author,"Works": worksList });
     } catch (error) {
         console.error("Error al obtener autor:", error.message);
         res.status(500).json({ error: "No se pudo obtener al autor" });
@@ -72,7 +73,7 @@ const updateAuthor = async (req, res) => {
         const existingAuthor = await getAuthorByIDFromDB(AuthorID);
         const existingImagePath = existingAuthor.ImagePath;
 
-        if (existingImagePath && existingImagePath !== "no-pic.jpg") {
+        if (existingImagePath && existingImagePath !== "no-pic.webp") {
             const pathToDelete = path.join("public/images/authors", existingImagePath);
             try {
                 await fs.unlink(pathToDelete);

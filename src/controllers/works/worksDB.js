@@ -1,10 +1,12 @@
 import { pool } from "../../db.js";
 
 const getWorksListQuery = 'SELECT * FROM Works';
-const getWorksByAuthorIDQuery = `SELECT * FROM WorksAuthorView WHERE AuthorID = ?`
+const getWorksFullInfoQuery = 'SELECT * FROM WorksAuthorView WHERE WorkID = ?';
 const getWorkByIDQuery = 'SELECT * FROM Works WHERE WorkID = ?';
 const createWorksQuery = 'INSERT INTO Works SET ?';
 const updateWorksQuery = 'UPDATE Works SET ? WHERE WorkID = ?';
+const connectWorkToAuthorQuery = 'INSERT INTO Works_Author SET ?';
+const getRolesQuery = 'SELECT * FROM Role';
 const deleteWorksQuery = 'DELETE FROM Works WHERE WorkID = ?';
 
 const getWorksList = async () => {
@@ -13,12 +15,12 @@ const getWorksList = async () => {
         return rows;
     } catch (error) {
         throw error;
-    }
+    };
 };
 
-const getWorksByAuthorIDFromDB = async (authorID) => {
+const getWorkFullInfoFromDB = async (workID) => {
     try {
-        const [rows] = await pool.query(getWorksByAuthorIDQuery, [authorID]);
+        const [rows] = await pool.query(getWorksFullInfoQuery, [workID]);
         return rows;
     } catch (error) {
         throw error;
@@ -31,7 +33,7 @@ const getWorkByIDFromDB = async (workID) => {
         return rows[0];
     } catch (error) {
         throw error;
-    }
+    };
 };
 
 const createWorkInDB = async (workData) => {
@@ -40,7 +42,7 @@ const createWorkInDB = async (workData) => {
         return result;
     } catch (error) {
         throw error;
-    }
+    };
 };
 
 const updateWorkInDB = async (workData, workID) => {
@@ -49,7 +51,7 @@ const updateWorkInDB = async (workData, workID) => {
         return result;
     } catch (error) {
         throw error;
-    }
+    };
 };
 
 const deleteWorkInDB = async (workID) => {
@@ -58,36 +60,25 @@ const deleteWorkInDB = async (workID) => {
         return result;
     } catch (error) {
         throw error;
-    }
+    };
 };
 
 const connectWorkToAuthorInDB = async (authorWorksRoleData) => {
     try {
-        const query = "INSERT INTO Works_Author SET ?";
-        const [result] = await pool.query(query, [authorWorksRoleData]);
+        const [result] = await pool.query(connectWorkToAuthorQuery, [authorWorksRoleData]);
         return result;
     } catch (error) {
         throw error;
-    }
+    };
 };
 
 const getRolesInDB = async () => {
     try {
-        const query = "SELECT * FROM Role";
-        const [rows] = await pool.query(query);
+        const [rows] = await pool.query(getRolesQuery);
         return rows;
     } catch (error) {
         throw error;
-    }
-}
-
-export {
-    getWorksList,
-    getWorksByAuthorIDFromDB,
-    getWorkByIDFromDB,
-    createWorkInDB,
-    updateWorkInDB,
-    deleteWorkInDB,
-    getRolesInDB,
-    connectWorkToAuthorInDB
+    };
 };
+
+export { getWorksList, getWorkByIDFromDB, createWorkInDB, updateWorkInDB, deleteWorkInDB, getRolesInDB, connectWorkToAuthorInDB, getWorkFullInfoFromDB };

@@ -34,10 +34,6 @@ const worksStorage = multer.diskStorage({
   },
 });
 
-// Configuración de Multer para autores
 export const uploadAuthorImage = multer({ storage: authorStorage });
-
-// Configuración de Multer para libros
 export const uploadBookImage = multer({ storage: bookStorage });
-
 export const uploadWorksImage = multer({ storage: worksStorage });  
