@@ -5,7 +5,12 @@ const getWorksFullInfoQuery = 'SELECT * FROM WorksAuthorView WHERE WorkID = ?';
 const getWorkByIDQuery = 'SELECT * FROM Works WHERE WorkID = ?';
 const createWorksQuery = 'INSERT INTO Works SET ?';
 const updateWorksQuery = 'UPDATE Works SET ? WHERE WorkID = ?';
-const connectWorkToAuthorQuery = 'INSERT INTO Works_Author SET ?';
+const connectWorkToAuthorQuery = `
+    INSERT INTO Works_Author (WorkID, AuthorID, RoleID)
+    VALUES (?, ?, ?)
+    ON DUPLICATE KEY UPDATE
+        RoleID = VALUES(RoleID);
+`;
 const getRolesQuery = 'SELECT * FROM Role';
 const deleteWorksQuery = 'DELETE FROM Works WHERE WorkID = ?';
 
