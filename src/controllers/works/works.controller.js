@@ -142,21 +142,23 @@ const getWorkFullInfo = async (req, res) => {
 
     if (Array.isArray(result)) {
       const workItem = result[0];
-
       formattedResult.Authors = result.map((item) => ({
         AuthorID: item.AuthorID,
         AuthorFullName: `${item.AuthorName} ${item.AuthorLastName}`,
         RoleName: item.RoleName,
+        RoleID: item.RoleID,
       }));
       formattedResult.WorkImagePath = workItem.WorkImagePath;
       formattedResult.WorkTitle = workItem.WorkTitle;
       formattedResult.WorkSubtitle = workItem.WorkSubtitle;
+      formattedResult.WorkOriginalTitle = workItem.WorkOriginalTitle;
       formattedResult.WorkPublishingYear = workItem.WorkPublishingYear;
       formattedResult.WorkDescription = workItem.WorkDescription;
     } else {
       formattedResult.WorkImagePath = result.ImagePath;
       formattedResult.WorkTitle = result.Title;
       formattedResult.WorkSubtitle = result.Subtitle;
+      formattedResult.WorkOriginalTitle = result.WorkOriginalTitle;
       formattedResult.WorkPublishingYear = result.PublishingYear;
       formattedResult.WorkDescription = result.Description;
     }
