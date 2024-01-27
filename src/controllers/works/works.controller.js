@@ -148,6 +148,7 @@ const getWorkFullInfo = async (req, res) => {
         RoleName: item.RoleName,
         RoleID: item.RoleID,
       }));
+      formattedResult.WorkWorkID = workItem.WorkID;
       formattedResult.WorkImagePath = workItem.WorkImagePath;
       formattedResult.WorkTitle = workItem.WorkTitle;
       formattedResult.WorkSubtitle = workItem.WorkSubtitle;
@@ -156,6 +157,7 @@ const getWorkFullInfo = async (req, res) => {
       formattedResult.WorkDescription = workItem.WorkDescription;
     } else {
       formattedResult.WorkImagePath = result.ImagePath;
+      formattedResult.WorkWorkID = workItem.WorkID;
       formattedResult.WorkTitle = result.Title;
       formattedResult.WorkSubtitle = result.Subtitle;
       formattedResult.WorkOriginalTitle = result.WorkOriginalTitle;
