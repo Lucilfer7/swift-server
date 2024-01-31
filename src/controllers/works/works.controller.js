@@ -106,20 +106,24 @@ const getRoles = async (req, res) => {
 };
 
 const connectWorkToAuthor = async (req, res) => {
-  const { WorkID, authorId, RoleID } = req.body;
-  console.log(req.body);
-  let authorWorkRoleData = { WorkID, AuthorID: authorId, RoleID };
+  const { WorkID, AuthorID, RoleID } = req.body;
+  console.log(req.body)
+  // Verificar que WorkID sea un valor válido antes de continuar
+  if (WorkID === null || WorkID === undefined) {
+      return res.status(400).json({ error: "WorkID no puede ser nulo" });
+  }
+
+  let authorWorkRoleData = { WorkID, AuthorID, RoleID };
 
   try {
-    const result = await connectWorkToAuthorInDB(authorWorkRoleData);
-    return res.status(201).json(result);
+      const result = await connectWorkToAuthorInDB(authorWorkRoleData);
+      return res.status(201).json(result);
   } catch (error) {
-    console.error("Error in connectWorkToAuthor:", error);
-    return res
-      .status(500)
-      .json({ error: "There was an error linking the author to the work" });
+      console.error("Error in connectWorkToAuthor:", error);
+      return res.status(500).json({ error: "Hubo un error al vincular el autor con la obra" });
   }
 };
+
 
 //Va a buscar en la información completa (si es que tiene Autores relacionados, etc., si no lo encuentra, busca en el work normal)
 const getWorkFullInfo = async (req, res) => {
@@ -157,7 +161,7 @@ const getWorkFullInfo = async (req, res) => {
       formattedResult.WorkDescription = workItem.WorkDescription;
     } else {
       formattedResult.WorkImagePath = result.ImagePath;
-      formattedResult.WorkWorkID = workItem.WorkID;
+      formattedResult.WorkWorkID = result.WorkID;
       formattedResult.WorkTitle = result.Title;
       formattedResult.WorkSubtitle = result.Subtitle;
       formattedResult.WorkOriginalTitle = result.WorkOriginalTitle;

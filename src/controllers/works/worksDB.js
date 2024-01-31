@@ -70,12 +70,20 @@ const deleteWorkInDB = async (workID) => {
 
 const connectWorkToAuthorInDB = async (authorWorksRoleData) => {
     try {
-        const [result] = await pool.query(connectWorkToAuthorQuery, [authorWorksRoleData]);
+        const { WorkID, AuthorID, RoleID } = authorWorksRoleData;
+
+        // Verificar que WorkID sea un valor válido antes de realizar la inserción
+        if (WorkID === null || WorkID === undefined) {
+            throw new Error("WorkID no puede ser nulo");
+        }
+
+        const [result] = await pool.query(connectWorkToAuthorQuery, [WorkID, AuthorID, RoleID]);
         return result;
     } catch (error) {
         throw error;
-    };
+    }
 };
+
 
 const getRolesInDB = async () => {
     try {

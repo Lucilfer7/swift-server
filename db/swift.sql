@@ -128,4 +128,5 @@ SELECT
 FROM Works_Author WA
 JOIN Works W ON WA.WorkID = W.WorkID
 JOIN Author A ON WA.AuthorID = A.AuthorID
-JOIN Role R ON WA.RoleID = R.RoleID;
+JOIN Role R ON WA.RoleID = R.RoleID
+WITH CHECK OPTION;
