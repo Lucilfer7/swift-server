@@ -68,7 +68,15 @@ const createWork = async (req, res) => {
 
 const updateWork = async (req, res) => {
   const { workID } = req.params;
-  const workData = req.body;
+  const {WorkImagePath, WorkDescription, WorkTitle, WorkSubtitle, WorkPublishingYear, WorkOriginalTitle} = req.body;
+  const workData = {
+    ImagePath: WorkImagePath,
+    Description: WorkDescription,
+    Title: WorkTitle,
+    Subtitle: WorkSubtitle,
+    PublishingYear: WorkPublishingYear,
+    OriginalTitle: WorkOriginalTitle
+  }
   try {
     const result = await updateWorkInDB(workData, workID);
     return res.json(result);
@@ -152,7 +160,7 @@ const getWorkFullInfo = async (req, res) => {
         RoleName: item.RoleName,
         RoleID: item.RoleID,
       }));
-      formattedResult.WorkWorkID = workItem.WorkID;
+      formattedResult.WorkID = workItem.WorkID;
       formattedResult.WorkImagePath = workItem.WorkImagePath;
       formattedResult.WorkTitle = workItem.WorkTitle;
       formattedResult.WorkSubtitle = workItem.WorkSubtitle;
@@ -161,7 +169,7 @@ const getWorkFullInfo = async (req, res) => {
       formattedResult.WorkDescription = workItem.WorkDescription;
     } else {
       formattedResult.WorkImagePath = result.ImagePath;
-      formattedResult.WorkWorkID = result.WorkID;
+      formattedResult.WorkID = result.WorkID;
       formattedResult.WorkTitle = result.Title;
       formattedResult.WorkSubtitle = result.Subtitle;
       formattedResult.WorkOriginalTitle = result.WorkOriginalTitle;
